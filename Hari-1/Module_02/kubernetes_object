@@ -1,4 +1,0 @@
-kubectl create -f <nama file>
-kubectl get -f <nama file>
-kubectl replace -f <nama file>
-kubectl delete -f <nama file>
