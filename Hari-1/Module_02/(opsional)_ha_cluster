@@ -1,0 +1,115 @@
+#...On node loadbalancer
+- install haproxy
+apt install haproxy
+
+- konfigurasi haproxy
+vim /etc/haproxy/haproxy.cfg
+#...
+defaults
+        log     global
+        mode    tcp
+        option  tcplog
+        option  dontlognull
+        timeout connect 5000
+        timeout client  50000
+        timeout server  50000
+        errorfile 400 /etc/haproxy/errors/400.http
+        errorfile 403 /etc/haproxy/errors/403.http
+        errorfile 408 /etc/haproxy/errors/408.http
+        errorfile 500 /etc/haproxy/errors/500.http
+        errorfile 502 /etc/haproxy/errors/502.http
+        errorfile 503 /etc/haproxy/errors/503.http
+        errorfile 504 /etc/haproxy/errors/504.http
+
+frontend proxynode
+        bind *:80
+        bind *:6443
+        stats uri /proxystats
+        default_backend kubecluster
+
+backend kubecluster
+        balance roundrobin
+        server  master-first <ip_master>:<port> check
+        server  master-second <ip_master>:<port> check
+
+listen stats
+        bind :9999
+        mode http
+        stats enable
+        stats hide-version
+        stats uri /stats
+#...
+
+- restart haproxy
+haproxy -c -f /etc/haproxy/haproxy.cfg
+systemctl restart haproxy
+
+- access haproxy stats
+http://<ip_haproxy>:<port>/stats
+
+#...On node master
+- initialize control-plane
+kubeadm init --control-plane-endpoint <ip_haproxy>:<port>
+kubeadm init phase upload-certs --upload-certs
+
+- create kubeconfig on root user
+vim .bashrc
+#...
+export KUBECONFIG=/etc/kubernetes/admin.conf
+#...
+
+source .bashrc
+
+- create kubeconfig on non-root user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+vim .bashrc
+#...
+export KUBECONFIG=$HOME/.kube/config
+#...
+
+source .bashrc
+
+- create new token (optional)
+kubeadm token create
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
+   openssl dgst -sha256 -hex | sed 's/^.* //'
+
+#...Add node control-plane
+- join kube cluster
+sudo kubeadm join <ip_haproxy>:<port> --token <token> --discovery-token-ca-cert-hash sha256:<hash> --control-plane --certificate-key <cert_key>
+
+- create kubeconfig on root user
+vim .bashrc
+#...
+export KUBECONFIG=/etc/kubernetes/admin.conf
+#...
+
+source .bashrc
+
+- create kubeconfig on non-root user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+vim .bashrc
+#...
+export KUBECONFIG=$HOME/.kube/config
+#...
+
+source .bashrc
+
+#...On node worker
+
+- join kube cluster
+kubeadm join --token <token> <ip_haproxy>:<port> --discovery-token-ca-cert-hash sha256:<hash>
+
+#...Test failover
+- stop docker & kubernetes master
+systemctl stop docker
+systemctl stop kubelet
+
+- check cluster
+kubectl get node -o wide

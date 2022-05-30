@@ -1,0 +1,37 @@
+#...On node master
+
+- create certificates
+cd /etc/ssl/private/
+mkdir client
+cd client/
+
+cp /etc/kubernetes/pki/ca.{crt,key} .
+
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -out client.csr -subj "/CN=client/O=dev"
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 3650
+
+- create kubeconfig file
+kubectl --kubeconfig client.conf config set-cluster kubernetes --server https://172.23.0.131:6443 --certificate-authority=ca.crt 
+kubectl --kubeconfig client.conf config set-credentials client --client-certificate client.crt --client-key client.key 
+kubectl --kubeconfig client.conf config set-context client-kubernetes --cluster kubernetes --namespace development --user client
+vim client.conf
+kubectl --kubeconfig client.conf get pods
+
+- create role
+kubectl create role client-dev --verb=get,list --resource=pods --namespace dev
+kubectl -n dev get role
+kubectl -n dev edit role client-dev
+
+- create role-binding
+kubectl create rolebinding client-dev-rolebinding --role=client-dev --user=client --namespace dev
+kubectl -n dev get rolebinding
+    kubectl -n dev edit rolebinding client-dev-rolebinding
+
+kubectl create rolebinding dev-rolebinding --role=client-dev --group=dev --namespace dev
+kubectl -n dev get rolebinding
+    kubectl -n dev edit rolebinding dev-rolebinding
+
+- verify
+export KUBECONFIG=/etc/kubernetes/pki/client.conf 
+kubectl get pod
