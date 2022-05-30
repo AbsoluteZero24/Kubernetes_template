@@ -1,0 +1,28 @@
+kubectl api-resources
+kubectl get pod
+
+kubectl run app1 --image=nginx
+kubectl get pod
+kubectl get pod -o wide
+kubectl get pod app1 -o yaml
+kubectl describe pod app1
+
+vim pod.yml
+kubectl apply -f pod.yml
+kubectl get pod
+kubectl get pod -o wide
+kubectl get pod app1 -o yaml
+kubectl describe pod app2
+
+kubectl exec -it app1 -- /bin/bash
+kubectl exec -it app2 -- /bin/bash
+
+vim pod-sidecar.yml
+kubectl apply -f pod_sidecar.yml
+kubectl get pod
+kubectl get pod -o wide
+kubectl get pod app-sidecar -o yaml
+kubectl describe pod app-sidecar
+
+kubectl logs app-sidecar
+curl http://192.168.171.73

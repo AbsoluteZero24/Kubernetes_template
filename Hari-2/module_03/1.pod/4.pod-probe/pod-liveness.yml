@@ -1,0 +1,21 @@
+https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/pods/probe/http-liveness.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: app-liveness
+spec:
+  containers:
+  - name: app-liveness
+    image: nginx
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 3

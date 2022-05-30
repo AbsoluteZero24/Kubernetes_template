@@ -1,0 +1,32 @@
+- liveness
+vim pod_liveness.yml
+kubectl create -f pod_liveness.yml
+
+kubectl get pod
+kubectl describe pod app-liveness
+
+kubectl exec -it app-liveness -- /bin/bash
+echo "200 OK" > /usr/share/nginx/html/health
+kubectl describe pod app-liveness
+
+- readiness
+vim pod_readiness.yml
+kubectl create -f pod_readiness.yml
+
+kubectl get pod
+kubectl describe pod app-readiness
+
+kubectl exec -it app-readiness -- /bin/bash
+echo "200 OK" > /usr/share/nginx/html/health
+kubectl describe pod app-readiness
+
+- startup
+vim pod_startup.yml
+kubectl create -f pod_startup.yml
+
+kubectl get pod
+kubectl describe pod app-startup
+
+kubectl exec -it app-startup -- /bin/bash
+echo "200 OK" > /usr/share/nginx/html/health
+kubectl describe pod app-startup

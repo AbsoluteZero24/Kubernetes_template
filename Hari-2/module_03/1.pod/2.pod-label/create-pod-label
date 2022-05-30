@@ -1,0 +1,11 @@
+vim pod_label.yml
+kubectl apply -f pod_label.yml
+kubectl get pod --show-labels
+
+kubectl label pod app-nginx app=test
+kubectl label pod app-label environtment=production --overwrite
+kubectl get pod --show-labels
+
+kubectl get pod -l app --show-labels
+kubectl get pod -l '!app' --show-labels
+kubectl get pod -l app,environtment --show-labels

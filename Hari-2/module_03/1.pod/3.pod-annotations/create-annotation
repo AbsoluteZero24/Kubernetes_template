@@ -1,0 +1,8 @@
+vim pod_annotation.yml
+kubectl apply -f pod_annotation.yml
+kubectl get pod
+kubectl describe pod app-annotation
+
+kubectl describe pod app1
+kubectl annotate pod app1 description="ini coba ubah anotasi manual"
+kubectl describe pod app1

@@ -1,0 +1,7 @@
+vim job.yml
+kubectl apply -f job.yml
+kubectl describe jobs/pi
+
+kubectl exec -it pi-kf5pw -- /bin/bash
+kubectl logs pi-kf5pw
+

@@ -1,0 +1,12 @@
+wget https://k8s.io/examples/pods/simple-pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app2
+spec:
+  containers:
+  - name: ct-nginx
+    image: nginx
+    ports:
+      - containerPort: 80

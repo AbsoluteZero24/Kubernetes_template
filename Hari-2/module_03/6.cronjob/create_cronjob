@@ -1,0 +1,4 @@
+vim cronjob.yml
+kubectl apply -f cronjob.yml
+kubectl describe cronjob/hello
+kubectl delete cronjob/hello

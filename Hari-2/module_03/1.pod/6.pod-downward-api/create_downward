@@ -1,0 +1,6 @@
+vim pod-downward.yml
+kubectl apply -f pod-downward.yml
+kubectl describe pod/app-downward
+
+kubectl exec -it app-downward -- /bin/bash
+env

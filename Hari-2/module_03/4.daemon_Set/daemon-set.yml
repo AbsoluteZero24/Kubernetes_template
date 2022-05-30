@@ -1,0 +1,22 @@
+wget https://raw.githubusercontent.com/kubernetes/website/main/content/id/examples/controllers/daemonset.yaml
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemon-nginx
+  labels:
+    app: daemon-nginx
+spec:
+  selector:
+    matchLabels:
+      name: daemon-nginx
+  template:
+    metadata:
+      labels:
+        name: daemon-nginx
+    spec:
+      containers:
+      - name: ct-nginx
+        image: nginx
+        ports:
+          - containerPort: 80

@@ -1,0 +1,5 @@
+vim configmaps.yml
+vim pod-configmaps.yml
+kubectl apply -f configmaps.yml
+kubectl apply -f pod-configmaps.yml
+kubectl exec -it app-config -- /bin/bash

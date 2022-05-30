@@ -1,0 +1,32 @@
+wget https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/controllers/frontend.yaml
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-rs
+  labels:
+    app: app-nginx
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+        - app-nginx
+    - key: env
+      operator: In
+      values:
+        - dev
+  template:
+    metadata:
+      labels:
+        app: app-nginx
+        env: dev
+    spec:
+      containers:
+      - name: ct-nginx
+        image: nginx
+        ports:
+        - containerPort: 80

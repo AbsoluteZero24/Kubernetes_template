@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-env
+spec:
+  containers:
+  - name: ct-busybox
+    image: busybox
+    env:
+      - name: TEST_ENV
+        value: '1234'
+    command: ['sh', '-c', 'echo $TEST_ENV']

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-annotation
+  labels:
+    environment: development
+    app: nginx
+  annotations:
+    descriptions: ini mencoba annotations
+spec:
+  containers:
+  - name: ct-nginx
+    image: nginx
+    ports:
+    - containerPort: 80

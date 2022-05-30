@@ -1,0 +1,4 @@
+vim pod-env.yml
+kubectl apply -f pod-env.yml
+kubectl describe pod/app-env
+kubectl logs -f pod/app-env

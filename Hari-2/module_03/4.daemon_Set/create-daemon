@@ -1,0 +1,3 @@
+vim daemon-set.yml
+kubectl apply -f daemon-set.yml
+kubectl get ds
