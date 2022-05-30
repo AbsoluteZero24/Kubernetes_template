@@ -1,0 +1,7 @@
+#...On node master
+
+kubectl get node
+kubectl get node -o wide
+
+kubectl describe node <node>
+kubectl describe node <node> | grep -i taint

@@ -1,0 +1,19 @@
+#...On All node 
+
+- set hostname
+hostnamectl set-hostname <hostname>
+
+- set hosts
+vim /etc/hosts
+#...
+<ip_address> <hostname>
+#...
+
+- set date
+timedatectl set-timezone Asia/Jakarta
+
+- update & upgrade 
+apt update && apt upgrade -y
+
+- autoremove
+apt autoremove

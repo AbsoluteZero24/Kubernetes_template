@@ -1,0 +1,8 @@
+- Konsep container orchestration 
+- Basic Kubernetes
+- Kubernetes Architecture
+- Installation & Create Cluster
+- API Concept Kubernetes
+- Manage RBAC
+- Manage HA Kubernetes Cluster
+- Implement etcd backup & restore
