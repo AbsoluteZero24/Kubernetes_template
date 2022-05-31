@@ -1,7 +1,7 @@
 #...On node master
 
 - create certificates
-cd /etc/ssl/private/
+cd /etc/kubernetes/
 mkdir client
 cd client/
 
