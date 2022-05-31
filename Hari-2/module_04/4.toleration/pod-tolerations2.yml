@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-toleration2
+spec:
+  containers:
+  - name: ct-nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "ready"
+    operator: "Equal"
+    value: "ya"
+    effect: "NoSchedule"

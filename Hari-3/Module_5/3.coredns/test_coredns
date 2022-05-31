@@ -1,0 +1,37 @@
+vim nettool.yml
+kubectl create -f nettool.yml
+kubectl exec -it nettool -- /bin//bash
+
+#... on nettool
+apt update
+apt install curl dnsutils
+
+dig
+cat /etc/resolv.conf
+dig 10.96.0.10
+
+exit
+#...
+
+kubectl -n kube-system get svc
+kubectl -n kube-system get svc kube-dns -o yaml
+
+kubectl get pod -l k8s-app -A
+kubectl get pod coredns-6d4b75cb6d-p42tx -n kube-system -o yaml
+
+kubectl get cm -n kube-system
+kubectl get cm -n kube-system coredns -o yaml
+
+- edit
+
+kubectl edit cm -n kube-system coredns
+
+#... add
+rewrite stop {
+    name regex (.*)\.test\.io {1}.default.svc.cluster.local
+    answer name (.*)\.default\.svc\.cluster\.local {1}.test.io
+}
+#...
+
+kubectl exec -it ubuntu -- /bin/bash
+dig svc-nginx.test.io
