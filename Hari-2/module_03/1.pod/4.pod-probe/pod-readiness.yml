@@ -10,7 +10,7 @@ spec:
     image: nginx
     readinessProbe:
       httpGet:
-        path: /health
+        path: /health.html
         port: 80
       initialDelaySeconds: 5
       periodSeconds: 5
