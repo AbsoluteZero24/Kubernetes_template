@@ -13,7 +13,7 @@ spec:
         containerPort: 80
     startupProbe:
       httpGet:
-        path: /health
+        path: /health.html
         port: startup-port
       failureThreshold: 30
       periodSeconds: 10
