@@ -1,0 +1,4 @@
+apt install nfs-common
+mkdir /nfs-vol
+mount -t nfs 172.23.1.70:/mnt/NFS /ex-vol/
+df -h

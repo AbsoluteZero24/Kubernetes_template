@@ -1,0 +1,7 @@
+kubectl create -f pv-hostpath.yml 
+kubectl create -f pvc-hostpath.yml
+kubectl get pv,pvc
+
+kubectl create -f pod-pv.yml 
+kubectl get pod -o wide
+kubectl describe pod pod-pv
