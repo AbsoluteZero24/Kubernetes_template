@@ -1,0 +1,9 @@
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl -n kube-system get pod
+kubectl -n kube-system get all
+
+kubectl edit deployment.apps/metrics-server -n kube-system
+kubectl -n kube-system logs metrics-server-<id>
+kubectl top pod
+kubectl top pod -A
+kubectl top node

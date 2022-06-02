@@ -1,0 +1,4 @@
+kubectl get -n kube-system
+kubectl logs -n kube-system kube-apiserver-master
+kubectl logs -n kube-system kube-apiserver-master >> api.log
+

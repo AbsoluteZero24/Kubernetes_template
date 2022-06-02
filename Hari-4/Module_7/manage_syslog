@@ -1,0 +1,9 @@
+cd /var/log/
+
+# network log
+cd calico/cni
+tail -f cni.log
+
+# container log
+cd container
+tail -f <nama log>
